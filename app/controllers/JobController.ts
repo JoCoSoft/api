@@ -1,23 +1,26 @@
 // Import only what we need from express
 import { Router, Request, Response } from "express";
-
+import db from "../db/connection";
 // Assign router to the express.Router() instance
 const router: Router = Router();
 
 // The / here corresponds to the route that the JobController
 // is mounted on in the server.ts file.
 // In this case it's /welcome
-router.get("/", (req: Request, res: Response) => {
-  // Reply with a hello world when no name param is provided
-  res.send("Hello, World!");
+router.get("/", async (req: Request, res: Response) => {
+  const results = await db.Connection.query("SELECT * FROM jobs;");
+  return res.json(results[0]).status(200);
 });
 
-router.get("/:name", (req: Request, res: Response) => {
-  // Extract the name from the request parameters
-  let { name } = req.params;
-
-  // Greet the given name
-  res.send(`Hello, ${name}`);
+router.post("/", async (req: Request, res: Response) => {
+  console.log(req.body);
+  await db.Connection.query(
+    "INSERT INTO jobs (name, data) VALUES (:name, :data);",
+    {
+      replacements: { name: req.body.name, data: JSON.stringify(req.body.data) }
+    }
+  );
+  return res.json({}).status(201);
 });
 
 // Export the express.Router() instance to be used by server.ts

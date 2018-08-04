@@ -13,7 +13,7 @@ var app = express_1.default();
 var envPort = process.env.PORT;
 var port = envPort !== undefined ? parseInt(envPort, 10) : 3000;
 // Mount the WelcomeController at the /welcome route
-app.use("/welcome", controllers_1.WelcomeController);
+app.use("/job", controllers_1.JobController);
 // Serve the application at the given port
 app.listen(port, function () {
     // Success callback

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 // Assign router to the express.Router() instance
 var router = express_1.Router();
-// The / here corresponds to the route that the WelcomeController
+// The / here corresponds to the route that the JobController
 // is mounted on in the server.ts file.
 // In this case it's /welcome
 router.get("/", function (req, res) {
@@ -18,4 +18,4 @@ router.get("/:name", function (req, res) {
     res.send("Hello, " + name);
 });
 // Export the express.Router() instance to be used by server.ts
-exports.WelcomeController = router;
+exports.JobController = router;
