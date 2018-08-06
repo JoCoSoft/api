@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dropdb jocosoft-api
+createdb jocosoft-api
+NODE_ENV=development
+node_modules/.bin/sequelize db:migrate

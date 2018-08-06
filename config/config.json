@@ -1,6 +1,10 @@
 {
   "development": {
-    "use_env_variable": "DATABASE_URL"
+    "username": null,
+    "password": null,
+    "database": "jocosoft-api",
+    "host": "localhost",
+    "dialect": "postgres"
   },
   "test": {
     "use_env_variable": "DATABASE_URL"
