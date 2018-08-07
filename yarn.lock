@@ -39,10 +39,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/es6-shim@^0.31.37":
-  version "0.31.37"
-  resolved "https://registry.yarnpkg.com/@types/es6-shim/-/es6-shim-0.31.37.tgz#d01fa9b61a6692e57387dde5483b0255659ba70f"
-
 "@types/events@*":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-1.2.0.tgz#81a6731ce4df43619e5c8c945383b3e62a89ea86"
@@ -76,8 +72,8 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
 
 "@types/node@*":
-  version "10.5.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.6.tgz#1640f021dd0eaf12e731e54198c12ad2e020dc8e"
+  version "10.5.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.5.7.tgz#960d9feb3ade2233bcc9843c918d740b4f78a7cf"
 
 "@types/node@6.0.41":
   version "6.0.41"
@@ -615,7 +611,7 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-es5-ext@^0.10.12, es5-ext@^0.10.14, es5-ext@^0.10.30, es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14, es5-ext@~0.10.2:
+es5-ext@^0.10.12, es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.45, es5-ext@^0.10.9, es5-ext@~0.10.14, es5-ext@~0.10.2:
   version "0.10.45"
   resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.45.tgz#0bfdf7b473da5919d5adf3bd25ceb754fccc3653"
   dependencies:
@@ -1332,17 +1328,17 @@ mem@^1.1.0:
     mimic-fn "^1.0.0"
 
 memoizee@^0.4.3:
-  version "0.4.12"
-  resolved "https://registry.yarnpkg.com/memoizee/-/memoizee-0.4.12.tgz#780e99a219c50c549be6d0fc61765080975c58fb"
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/memoizee/-/memoizee-0.4.13.tgz#548d2270e827e1477c4b15bc62cc9629ef6500c0"
   dependencies:
     d "1"
-    es5-ext "^0.10.30"
+    es5-ext "^0.10.45"
     es6-weak-map "^2.0.2"
     event-emitter "^0.3.5"
     is-promise "^2.1"
     lru-queue "0.1"
     next-tick "1"
-    timers-ext "^0.1.2"
+    timers-ext "^0.1.5"
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -1714,8 +1710,8 @@ path-key@^2.0.0:
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
 
 path-parse@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
 
 path-to-regexp@0.1.7:
   version "0.1.7"
@@ -2348,7 +2344,7 @@ timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
-timers-ext@0.1, timers-ext@^0.1.2:
+timers-ext@0.1, timers-ext@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/timers-ext/-/timers-ext-0.1.5.tgz#77147dd4e76b660c2abb8785db96574cbbd12922"
   dependencies:
@@ -2510,8 +2506,8 @@ uuid@^3.2.1:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
 validate-npm-package-license@^3.0.1:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.3.tgz#81643bcbef1bdfecd4623793dc4648948ba98338"
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
