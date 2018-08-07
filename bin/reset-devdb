@@ -1,0 +1,15 @@
+#!/bin/bash
+
+dropdb jocosoft-api
+createdb jocosoft-api
+NODE_ENV=development
+node_modules/.bin/sequelize db:migrate
+
+psql jocosoft-api -c "
+  INSERT INTO vents (
+    \"codeHash\",
+    \"status\")
+  VALUES (
+    '\$2b\$12\$j0H6VRM8SQPKrdDuGZb2qe1TNgw3LWX47.ogKki2XighI2.w8xH8i',
+    'manufactured'
+  )"
