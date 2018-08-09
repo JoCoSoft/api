@@ -5,34 +5,41 @@ import { Vent } from "../../models";
 const router: Router = Router();
 
 router.post("/register", async (req: Request, res: Response) => {
-  const registrationCode: string | undefined = req.body.code;
-
-  if (!registrationCode || registrationCode.trim() === "") {
-    throw Error("Property 'code' missing from request body.");
+  const serial: string | undefined = req.body.serial;
+  if (!serial || serial.trim() === "") {
+    throw Error("The 'serial' is missing from request body.");
+  }
+  const code: string | undefined = req.body.code;
+  if (!code || code.trim() === "") {
+    throw Error("The 'code' is missing from request body.");
   }
 
-  const vents = await Vent.findAll({ where: { status: "manufactured" } });
-  let matchingVent: Vent | undefined;
-  for (var v of vents) {
-    const bcryptCompare = await bcrypt.compare(registrationCode, v.codeHash);
-    if (bcryptCompare) {
-      matchingVent = v;
-      break;
+  const vent = await Vent.findOne({
+    where: {
+      serial,
+      status: "manufactured"
     }
-  }
-
-  if (!matchingVent) {
+  });
+  if (!vent) {
     return res
       .json({
         error:
-          "No vent has been manufactured with the given registration code or" +
-          " the vent has already been registered."
+          "No vent has been manufactured with the given serial or the vent has already been registed"
       })
       .status(400);
-  } else {
-    await matchingVent.update({ status: "registered" });
-    return res.json({ status: matchingVent.status }).status(200);
   }
+
+  const codeHashCompare = await bcrypt.compare(code, vent.codeHash);
+  if (!codeHashCompare) {
+    return res
+      .json({
+        error: "No vent has been manufactured with the given serial and code."
+      })
+      .status(400);
+  }
+
+  await vent.update({ status: "registered" });
+  return res.json({ status: vent.status }).status(200);
 });
 
 export const VentController: Router = router;

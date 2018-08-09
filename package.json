@@ -6,16 +6,17 @@
   "author": "Eddie Hedges <eddiehedges@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "admin": "yarn build && node build/admin",
+    "build": "./node_modules/.bin/tsc",
+    "postinstall": "yarn build",
+    "start": "node_modules/.bin/sequelize db:migrate && node build/app/server.js",
+    "start:dev": "./node_modules/nodemon/bin/nodemon.js"
+  },
   "devDependencies": {
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
     "typescript": "^3.0.1"
-  },
-  "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "start": "node_modules/.bin/sequelize db:migrate && node build/app/server.js",
-    "start:dev": "./node_modules/nodemon/bin/nodemon.js",
-    "postinstall": "yarn build"
   },
   "dependencies": {
     "@types/bcrypt": "^2.0.0",
