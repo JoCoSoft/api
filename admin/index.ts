@@ -20,7 +20,7 @@ import { Vent } from "../models";
 ### Usage ###
 
 add-vent  Adds a vent to the vents table
-          Example: \`node index.js add-vent -code 1nt3ll1v3nt\`
+          Example: \`node index.js add-vent -serial IntelliVent -code 1nt3ll1v3nt\`
   `);
   }
 
