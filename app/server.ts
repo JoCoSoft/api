@@ -6,8 +6,8 @@ dotenv.config();
 // Create and configure a new express application
 const app: express.Application = express();
 app.use(express.json());
-app.use("/jobs", JobController);
-app.use("/vents", VentController);
+app.use("/api/v1/jobs", JobController);
+app.use("/api/v1/vents", VentController);
 
 const envPort = process.env.PORT;
 const port: number = envPort !== undefined ? parseInt(envPort, 10) : 3000;

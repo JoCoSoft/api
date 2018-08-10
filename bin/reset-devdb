@@ -7,9 +7,11 @@ node_modules/.bin/sequelize db:migrate
 
 psql jocosoft-api -c "
   INSERT INTO vents (
+    \"serial\",
     \"codeHash\",
     \"status\")
   VALUES (
+    'dev-vent',
     '\$2b\$12\$j0H6VRM8SQPKrdDuGZb2qe1TNgw3LWX47.ogKki2XighI2.w8xH8i',
     'manufactured'
   )"

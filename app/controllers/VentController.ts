@@ -7,11 +7,19 @@ const router: Router = Router();
 router.post("/register", async (req: Request, res: Response) => {
   const serial: string | undefined = req.body.serial;
   if (!serial || serial.trim() === "") {
-    throw Error("The 'serial' is missing from request body.");
+    return res
+      .json({
+        error: "The 'serial' is missing from request body."
+      })
+      .status(400);
   }
   const code: string | undefined = req.body.code;
   if (!code || code.trim() === "") {
-    throw Error("The 'code' is missing from request body.");
+    return res
+      .json({
+        error: "The 'code' is missing from request body."
+      })
+      .status(400);
   }
 
   const vent = await Vent.findOne({
@@ -24,7 +32,7 @@ router.post("/register", async (req: Request, res: Response) => {
     return res
       .json({
         error:
-          "No vent has been manufactured with the given serial or the vent has already been registed"
+          "No vent has been manufactured with the given serial or the vent has already been registered."
       })
       .status(400);
   }
@@ -39,7 +47,7 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 
   await vent.update({ status: "registered" });
-  return res.json({ status: vent.status }).status(200);
+  return res.json({ id: vent.id, status: vent.status }).status(200);
 });
 
 export const VentController: Router = router;
