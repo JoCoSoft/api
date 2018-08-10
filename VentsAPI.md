@@ -16,3 +16,14 @@ The vent uses this endpoint to register that it's come online / been setup by th
 	"code": "123456"
 }
 ```
+
+**Success Response**
+
+Success responses will contain an HTTP status of 200 and return the registered vents id and status.
+
+```
+{
+  "id": "da93b313-a8f8-4609-9e57-f7ca4b187ac1",
+  "status": "registered"
+}
+```

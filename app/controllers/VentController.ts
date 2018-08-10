@@ -32,7 +32,7 @@ router.post("/register", async (req: Request, res: Response) => {
     return res
       .json({
         error:
-          "No vent has been manufactured with the given serial or the vent has already been registered"
+          "No vent has been manufactured with the given serial or the vent has already been registered."
       })
       .status(400);
   }
@@ -47,7 +47,7 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 
   await vent.update({ status: "registered" });
-  return res.json({ status: vent.status }).status(200);
+  return res.json({ id: vent.id, status: vent.status }).status(200);
 });
 
 export const VentController: Router = router;
