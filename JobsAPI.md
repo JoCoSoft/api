@@ -16,29 +16,67 @@ The mobile app will need to store this information locally upon registration of 
   "data": {
     "id": "1dea4651-d230-4a46-8845-b8e0c436d8bf",
     "serial": "dev-vent",
-    "code": "123456"
+    "code": "123456",
+    "degrees": 180 // optional
   }
 }
 ```
 
+OR
+
+```
+[
+  {
+    "name": "open",
+    "data": {
+      "id": "1dea4651-d230-4a46-8845-b8e0c436d8bf",
+      "serial": "dev-vent",
+      "code": "123456",
+      "degrees": 90 // optional
+    }
+  },
+  {
+    "name": "close",
+    "data": {
+      "id": "1dea4651-d230-4a46-8845-b8e0c436d8bf",
+      "serial": "dev-vent",
+      "code": "123456",
+      "degrees": 90 // optional
+    }
+  }
+]
+```
+
+**Responses**
+
+Responses will be either 200/400. 400 will be returned if ALL jobs sent contained an error. 200 is returned if at least one of the jobs was successful. In both scenarios the object returned will contain the following arrays properties: `createdJobs` and `errors`. The objects within those arrays will contain an `idx` property that's a zero based ordered index of the jobs sent up by the clients request.
+
 **Success Response**
 
-Success responses will contain an HTTP status of 201 and return the newly created job.
+Example of a completely successful request containing 2 jobs.
 
 ```
-{
-  "id": "da93b313-a8f8-4609-9e57-f7ca4b187ac1"
-}
+[{
+  "createdJobs": [{
+    "idx": 0,
+    "id": "da93b313-a8f8-4609-9e57-f7ca4b187ac1"
+  }, {
+    "idx": 1,
+    "id": "da93b313-a8f8-4609-9e57-f7ca4b187ac1"
+  }],
+  "errors": []
+}]
 ```
 
-**Error Response**
+**Error Responses**
 
-Error response will contain an HTTP status in the 400s / 500s and return a json document with an error property.
+Example of a request with only error(s).
 
 ```
-{
-  "error": "SOME ERROR MESSAGE"
-}
+[{
+  "createdJobs": [],
+  "errors": [{"idx": 0, "error": "SOME ERROR MESSAGE"}]
+}]
 ```
 
 ## Get Jobs
