@@ -1,5 +1,10 @@
 import express from "express";
 import { JobController, VentController, UserController } from "./controllers";
+
+// Uncomment to use passport at the router level as opposed to a single route
+// import passport from "passport";
+// require("./passport");
+
 import * as dotenv from "dotenv";
 dotenv.config();
 

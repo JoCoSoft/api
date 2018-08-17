@@ -1,8 +1,43 @@
 import { Router, Request, Response } from "express";
 import { User, Password } from "../../models";
 import * as bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import passport from "passport";
+
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  throw Error(
+    "Unable to proceed without require JWT_SECRET environment variable"
+  );
+}
 
 const router: Router = Router();
+
+router.post("/sign-in", async (req: Request, res: Response) => {
+  passport.authenticate(
+    "local",
+    { session: false },
+    (err, userModel: User, info) => {
+      if (err || !userModel) {
+        return res.status(400).json({
+          message: "Authentication error",
+          user: !userModel ? null : userModel.toJSON()
+        });
+      }
+
+      const user = userModel.toJSON();
+      req.login(user, { session: false }, err => {
+        if (err) {
+          res.send(err);
+        }
+        // generate a signed son web token with the contents
+        // of user object and return it in the response
+        const token = jwt.sign(user, jwtSecret);
+        return res.json({ user: user, token });
+      });
+    }
+  )(req, res);
+});
 
 router.post("/sign-up", async (req: Request, res: Response) => {
   const name: string | undefined = req.body.name;
