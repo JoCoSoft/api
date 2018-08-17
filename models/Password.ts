@@ -1,7 +1,7 @@
 import * as Sequelize from "sequelize-typescript";
 import User from "./User";
 
-@Sequelize.Table({ tableName: "passwords" })
+@Sequelize.Table({ tableName: "passwords", updatedAt: false })
 export default class Password extends Sequelize.Model<Password> {
   @Sequelize.IsUUID(4)
   @Sequelize.PrimaryKey

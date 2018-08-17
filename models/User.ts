@@ -1,6 +1,6 @@
 import * as Sequelize from "sequelize-typescript";
 
-@Sequelize.Table({ tableName: "users" })
+@Sequelize.Table({ tableName: "users", updatedAt: false })
 export default class User extends Sequelize.Model<User> {
   @Sequelize.IsUUID(4)
   @Sequelize.PrimaryKey

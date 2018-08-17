@@ -117,7 +117,7 @@ router.post("/process", async (req: Request, res: Response) => {
   if (!serial || serial.trim() === "") {
     return res
       .json({
-        error: "The 'serial' is missing from request body."
+        error: "The 'serial' field is missing or empty."
       })
       .status(400);
   }
@@ -125,7 +125,7 @@ router.post("/process", async (req: Request, res: Response) => {
   if (!code || code.trim() === "") {
     return res
       .json({
-        error: "The 'code' is missing from request body."
+        error: "The 'code' field is missing or empty."
       })
       .status(400);
   }
