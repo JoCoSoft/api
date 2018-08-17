@@ -4,7 +4,7 @@
 
 **HTTP Method** POST
 
-**Authentication** TBDev
+**Authentication** JWT as Authorization Bearer token
 
 **Request Body** (example)
 
