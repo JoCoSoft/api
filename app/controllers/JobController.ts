@@ -1,9 +1,13 @@
 import { Router, Request, Response } from "express";
 import { Job, Vent, sequelize } from "../../models";
 import * as bcrypt from "bcrypt";
+import passport from "passport";
+require("../passport");
 
 const router: Router = Router();
 
+// TODO
+// Eventually remove or secure
 router.get("/", async (req: Request, res: Response) => {
   const jobs = await Job.findAll({ order: [["createdAt", "DESC"]] });
   return res
@@ -24,100 +28,103 @@ interface IMoveJobData {
   degrees?: number;
 }
 
-router.post("/", async (req: Request, res: Response) => {
-  const requestJobs = req.body instanceof Array ? req.body : [req.body];
-  const createdJobs: { idx: number; id: string }[] = [];
-  const errors: { idx: number; error: string }[] = [];
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    const requestJobs = req.body instanceof Array ? req.body : [req.body];
+    const createdJobs: { idx: number; id: string }[] = [];
+    const errors: { idx: number; error: string }[] = [];
 
-  for (let idx = 0; idx < requestJobs.length; idx++) {
-    const requestJob = requestJobs[idx];
-    const jobName: string | undefined = requestJob.name;
-    if (
-      !jobName ||
-      jobName.trim() === "" ||
-      // TODO Refactor when adding different job types
-      ["open", "close"].indexOf(jobName.trim()) < 0
-    ) {
-      errors.push({
-        idx,
-        error: "Unable to create job due to invalid/unsupported job name."
-      });
-      continue;
-    }
-
-    const moveJobData: IMoveJobData | undefined = requestJob.data;
-    if (
-      !moveJobData ||
-      !moveJobData.id ||
-      !moveJobData.serial ||
-      !moveJobData.code ||
-      moveJobData.id.trim() === "" ||
-      moveJobData.serial.trim() === "" ||
-      moveJobData.code.trim() === ""
-    ) {
-      errors.push({
-        idx,
-        error: "Unable to create job with invalid / missing data."
-      });
-      continue;
-    }
-
-    console.log(moveJobData);
-    const vent = await Vent.findOne({
-      where: {
-        id: moveJobData.id.trim(),
-        serial: moveJobData.serial.trim(),
-        status: "registered"
+    for (let idx = 0; idx < requestJobs.length; idx++) {
+      const requestJob = requestJobs[idx];
+      const jobName: string | undefined = requestJob.name;
+      if (
+        !jobName ||
+        jobName.trim() === "" ||
+        // TODO Refactor when adding different job types
+        ["open", "close"].indexOf(jobName.trim()) < 0
+      ) {
+        errors.push({
+          idx,
+          error: "Unable to create job due to invalid/unsupported job name."
+        });
+        continue;
       }
-    });
 
-    if (vent === null) {
-      errors.push({
-        idx,
-        error: "Unable to create job without matching vent."
+      const moveJobData: IMoveJobData | undefined = requestJob.data;
+      if (
+        !moveJobData ||
+        !moveJobData.id ||
+        !moveJobData.serial ||
+        !moveJobData.code ||
+        moveJobData.id.trim() === "" ||
+        moveJobData.serial.trim() === "" ||
+        moveJobData.code.trim() === ""
+      ) {
+        errors.push({
+          idx,
+          error: "Unable to create job with invalid / missing data."
+        });
+        continue;
+      }
+
+      const vent = await Vent.findOne({
+        where: {
+          id: moveJobData.id.trim(),
+          serial: moveJobData.serial.trim(),
+          status: "registered"
+        }
       });
-      continue;
+
+      if (vent === null) {
+        errors.push({
+          idx,
+          error: "Unable to create job without matching vent."
+        });
+        continue;
+      }
+
+      if (!(await bcrypt.compare(moveJobData.code.trim(), vent.codeHash))) {
+        errors.push({
+          idx,
+          error: "Unable to create job with invalid code."
+        });
+        continue;
+      }
+
+      const createdJob = await Job.create({
+        name: jobName,
+        data: JSON.stringify({
+          id: moveJobData.id,
+          serial: moveJobData.serial,
+          codeHash: vent.codeHash,
+          degrees: moveJobData.degrees || 90
+        })
+      });
+
+      createdJobs.push({
+        idx,
+        id: createdJob.id
+      });
     }
 
-    if (!(await bcrypt.compare(moveJobData.code.trim(), vent.codeHash))) {
-      errors.push({
-        idx,
-        error: "Unable to create job with invalid code."
-      });
-      continue;
-    }
-
-    const createdJob = await Job.create({
-      name: jobName,
-      data: JSON.stringify({
-        id: moveJobData.id,
-        serial: moveJobData.serial,
-        codeHash: vent.codeHash,
-        degrees: moveJobData.degrees || 90
+    const status = errors.length > 0 && createdJobs.length === 0 ? 400 : 200;
+    return res
+      .json({
+        createdJobs,
+        errors
       })
-    });
-
-    createdJobs.push({
-      idx,
-      id: createdJob.id
-    });
+      .status(status);
   }
-
-  const status = errors.length > 0 && createdJobs.length === 0 ? 400 : 200;
-  return res
-    .json({
-      createdJobs,
-      errors
-    })
-    .status(status);
-});
+);
 
 router.post("/process", async (req: Request, res: Response) => {
   const serial: string | undefined = req.body.serial;
   if (!serial || serial.trim() === "") {
     return res
       .json({
-        error: "The 'serial' is missing from request body."
+        error: "The 'serial' field is missing or empty."
       })
       .status(400);
   }
@@ -125,7 +132,7 @@ router.post("/process", async (req: Request, res: Response) => {
   if (!code || code.trim() === "") {
     return res
       .json({
-        error: "The 'code' is missing from request body."
+        error: "The 'code' field is missing or empty."
       })
       .status(400);
   }
