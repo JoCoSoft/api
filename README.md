@@ -30,3 +30,8 @@ Undo last migration (run down script): `node_modules/.bin/sequelize db:migrate:u
 ## Database Administration CLI
 
 Run `yarn admin` to see options
+
+## API Docs
+
+- [Users](./api-docs/UsersAPI.md)
+- [Vents](./api-docs/VentsAPI.md)

@@ -10,15 +10,13 @@ const router: Router = Router();
 // Eventually remove or secure
 router.get("/", async (req: Request, res: Response) => {
   const jobs = await Job.findAll({ order: [["createdAt", "DESC"]] });
-  return res
-    .json(
-      jobs.map(j => ({
-        id: j.id,
-        name: j.name,
-        createdAt: j.createdAt
-      }))
-    )
-    .status(200);
+  return res.status(200).json(
+    jobs.map(j => ({
+      id: j.id,
+      name: j.name,
+      createdAt: j.createdAt
+    }))
+  );
 });
 
 interface IMoveJobData {
@@ -110,31 +108,25 @@ router.post(
     }
 
     const status = errors.length > 0 && createdJobs.length === 0 ? 400 : 200;
-    return res
-      .json({
-        createdJobs,
-        errors
-      })
-      .status(status);
+    return res.status(status).json({
+      createdJobs,
+      errors
+    });
   }
 );
 
 router.post("/process", async (req: Request, res: Response) => {
   const serial: string | undefined = req.body.serial;
   if (!serial || serial.trim() === "") {
-    return res
-      .json({
-        error: "The 'serial' field is missing or empty."
-      })
-      .status(400);
+    return res.status(400).json({
+      error: "The 'serial' field is missing or empty."
+    });
   }
   const code: string | undefined = req.body.code;
   if (!code || code.trim() === "") {
-    return res
-      .json({
-        error: "The 'code' field is missing or empty."
-      })
-      .status(400);
+    return res.status(400).json({
+      error: "The 'code' field is missing or empty."
+    });
   }
 
   const vent = await Vent.findOne({
@@ -144,20 +136,16 @@ router.post("/process", async (req: Request, res: Response) => {
     }
   });
   if (!vent) {
-    return res
-      .json({
-        error: "No vent has been registered with the given serial."
-      })
-      .status(400);
+    return res.status(400).json({
+      error: "No vent has been registered with the given serial."
+    });
   }
 
   const codeHashCompare = await bcrypt.compare(code, vent.codeHash);
   if (!codeHashCompare) {
-    return res
-      .json({
-        error: "No vent has been registered with the given serial and code."
-      })
-      .status(400);
+    return res.status(400).json({
+      error: "No vent has been registered with the given serial and code."
+    });
   }
   // TODO Improve performance of the following code by adding
   // migration to use JSONB for easier querying of the data
@@ -175,16 +163,14 @@ router.post("/process", async (req: Request, res: Response) => {
     );
   });
 
-  res
-    .json(
-      correlatingJobs.map(j => ({
-        id: j.id,
-        name: j.name,
-        data: JSON.parse(j.data),
-        createdAt: j.createdAt
-      }))
-    )
-    .status(200);
+  res.status(200).json(
+    correlatingJobs.map(j => ({
+      id: j.id,
+      name: j.name,
+      data: JSON.parse(j.data),
+      createdAt: j.createdAt
+    }))
+  );
 
   // TODO Decide whether we want to DELETE this job here or have the
   // device explicitly tell us when it has completed a job
