@@ -1,6 +1,9 @@
 {
-  "name": "JoCoSoftAPI",
+  "name": "jocosoft-api",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.11.3"
+  },
   "description": "JoCoSoft API",
   "repository": "https://github.com/JoCoSoft/api",
   "author": "Eddie Hedges <eddiehedges@gmail.com>",
