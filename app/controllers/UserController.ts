@@ -71,7 +71,8 @@ router.post("/sign-up", async (req: Request, res: Response) => {
   ) {
     validationErrors.push({
       name: "Confirm Password",
-      error: "The 'Confirm Password' field is missing or empty."
+      error:
+        "The 'Confirm Password' field is missing, empty, or doesn't match the 'Password' field."
     });
   }
 
