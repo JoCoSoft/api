@@ -30,7 +30,7 @@ router.post("/sign-in", async (req: Request, res: Response) => {
         if (err) {
           res.send(err);
         }
-        // generate a signed son web token with the contents
+        // generate a signed json web token with the contents
         // of user object and return it in the response
         const token = jwt.sign(user, jwtSecret);
         return res.json({ user: user, token });
@@ -76,7 +76,7 @@ router.post("/sign-up", async (req: Request, res: Response) => {
   }
 
   if (validationErrors.length > 0) {
-    return res.json({ errors: validationErrors }).status(400);
+    return res.status(400).json({ errors: validationErrors });
   }
 
   const users = await User.count({
@@ -84,16 +84,14 @@ router.post("/sign-up", async (req: Request, res: Response) => {
   });
 
   if (users > 0) {
-    return res
-      .json({
-        errors: [
-          {
-            name: "Email",
-            error: "A user with that email already exists. Try signing in."
-          }
-        ]
-      })
-      .status(400);
+    return res.status(400).json({
+      errors: [
+        {
+          name: "Email",
+          error: "A user with that email already exists. Try signing in."
+        }
+      ]
+    });
   }
 
   const user = await User.create({
@@ -105,9 +103,11 @@ router.post("/sign-up", async (req: Request, res: Response) => {
     userId: user.id
   });
 
-  return res
-    .json({ id: user.id, email: user.email, name: user.name })
-    .status(201);
+  return res.status(201).json({
+    id: user.id,
+    email: user.email,
+    name: user.name
+  });
 });
 
 export const UserController: Router = router;
