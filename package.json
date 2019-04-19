@@ -10,9 +10,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "admin": "yarn build && node build/admin",
+    "admin": "npm run build && node build/admin",
     "build": "./node_modules/.bin/tsc",
-    "postinstall": "yarn build",
+    "postinstall": "npm run build",
     "start": "node_modules/.bin/sequelize db:migrate && node build/app/server.js",
     "start:dev": "./node_modules/nodemon/bin/nodemon.js"
   },
