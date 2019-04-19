@@ -2,7 +2,7 @@
   "name": "jocosoft-api",
   "version": "1.0.0",
   "engines": {
-    "node": "8.11.3"
+    "node": "10.15.1"
   },
   "description": "JoCoSoft API",
   "repository": "https://github.com/JoCoSoft/api",
@@ -10,9 +10,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "admin": "yarn build && node build/admin",
+    "admin": "npm run build && node build/admin",
     "build": "./node_modules/.bin/tsc",
-    "postinstall": "yarn build",
+    "postinstall": "npm run build",
     "start": "node_modules/.bin/sequelize db:migrate && node build/app/server.js",
     "start:dev": "./node_modules/nodemon/bin/nodemon.js"
   },

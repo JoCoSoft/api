@@ -4,9 +4,9 @@
 
    `git clone https://github.com/JoCoSoft/api`
 
-2. Install dependencies (install [yarn](https://yarnpkg.com/en/) if you don't have it)
+2. Install dependencies if you don't have it)
 
-   `yarn`
+   `npm ci` or `npm i`
 
 3. Setup the database
 
@@ -29,7 +29,7 @@ Undo last migration (run down script): `node_modules/.bin/sequelize db:migrate:u
 
 ## Database Administration CLI
 
-Run `yarn admin` to see options
+Run `npm run admin` to see options
 
 ## API Docs
 
