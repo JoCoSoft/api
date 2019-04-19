@@ -17,6 +17,7 @@
     "start:dev": "./node_modules/nodemon/bin/nodemon.js"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.4",
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
     "typescript": "^3.0.1"
@@ -30,6 +31,7 @@
     "@types/passport-jwt": "^3.0.1",
     "@types/passport-local": "^1.0.33",
     "bcrypt": "^3.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
