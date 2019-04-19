@@ -2,7 +2,7 @@
   "name": "jocosoft-api",
   "version": "1.0.0",
   "engines": {
-    "node": "8.11.3"
+    "node": "10.15.1"
   },
   "description": "JoCoSoft API",
   "repository": "https://github.com/JoCoSoft/api",
