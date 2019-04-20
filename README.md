@@ -34,4 +34,5 @@ Run `npm run admin` to see options
 ## API Docs
 
 - [Users](./api-docs/UsersAPI.md)
+- [Jobs](./api-docs/JobsAPI.md)
 - [Vents](./api-docs/VentsAPI.md)
