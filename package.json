@@ -17,7 +17,9 @@
     "start:dev": "bin/unset_dev_env_vars && node_modules/nodemon/bin/nodemon.js"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.26",
     "@types/cors": "^2.8.4",
+    "@types/validator": "^10.11.0",
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
     "typescript": "^3.0.1"
@@ -40,9 +42,9 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
-    "reflect-metadata": "^0.1.12",
-    "sequelize": "^4.38.0",
-    "sequelize-cli": "^4.0.0",
-    "sequelize-typescript": "^0.6.5"
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.7.1",
+    "sequelize-cli": "^5.4.0",
+    "sequelize-typescript": "^1.0.0-alpha.9"
   }
 }
