@@ -23,6 +23,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run build
+
       - save_cache:
           paths:
             - node_modules
