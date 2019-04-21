@@ -47,6 +47,7 @@ add-vent  Adds a vent to the vents table
         const serial = commandArgs[1].trim();
         const code = commandArgs[3].trim();
         const codeHash = await bcrypt.hash(code, await bcrypt.genSalt(12));
+        console.log(serial, code, codeHash);
         const vent = await Vent.create({
           serial,
           codeHash,

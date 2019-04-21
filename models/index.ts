@@ -3,13 +3,9 @@ import Job from "./Job";
 import Vent from "./Vent";
 import User from "./User";
 import Password from "./Password";
-import * as dotenv from "dotenv";
-dotenv.config();
+import environment from "../environment";
 
-if (process.env.DATABASE_URL === undefined)
-  throw Error("Missing required environment variable 'DATABASE_URL'");
-
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(environment.DATABASE_URL);
 sequelize.addModels([Job, Vent, User, Password]);
 
 // Models should be imported from this file. Importing from the model file itself seems

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Unsets environment variables that should be loaded by dotenv in development
+unset NODE_ENV;
+unset DATABASE_URL;
+unset JWT_SECRET;
+unset ENABLE_CORS;

@@ -3,8 +3,9 @@ import { User, Password } from "../../models";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import environment from "../../environment";
 
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = environment.JWT_SECRET;
 if (!jwtSecret) {
   throw Error(
     "Unable to proceed without require JWT_SECRET environment variable"

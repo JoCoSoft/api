@@ -3,6 +3,7 @@ import passportLocal from "passport-local";
 import passportJwt from "passport-jwt";
 import { User, Password } from "../models";
 import * as bcrypt from "bcrypt";
+import environment from "../environment";
 
 passport.use(
   new passportLocal.Strategy(
@@ -37,7 +38,7 @@ passport.use(
 
 const JWTStrategy = passportJwt.Strategy;
 const ExtractJWT = passportJwt.ExtractJwt;
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = environment.JWT_SECRET;
 if (!jwtSecret) {
   throw Error(
     "Unable to proceed without require JWT_SECRET environment variable"
@@ -52,7 +53,7 @@ passport.use(
     },
     function(jwtPayload, cb) {
       //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-      return User.findById(jwtPayload.id)
+      return User.findByPk<User>(jwtPayload.id)
         .then(user => {
           return cb(null, user);
         })
