@@ -2,7 +2,7 @@ import * as Sequelize from "sequelize-typescript";
 
 export type TVentStatus = "manufactured" | "registered";
 
-@Sequelize.Table({ tableName: "vents" })
+@Sequelize.Table({ tableName: "vents", createdAt: false, updatedAt: false })
 export default class Vent extends Sequelize.Model<Vent> {
   @Sequelize.IsUUID(4)
   @Sequelize.PrimaryKey
