@@ -1,7 +1,9 @@
 import { Router, Request, Response } from "express";
-import { Job, Vent } from "../../models";
+import { Job, Vent, User } from "../../models";
 import * as bcrypt from "bcrypt";
 import passport from "passport";
+
+// Include our passport setup
 require("../passport");
 
 const router: Router = Router();
@@ -27,7 +29,7 @@ router.post(
       if (
         !jobName ||
         jobName.trim() === "" ||
-        // TODO Refactor when adding different job types
+        // TODO Refactor if adding different job types
         ["open", "close"].indexOf(jobName.trim()) < 0
       ) {
         errors.push({
@@ -54,11 +56,13 @@ router.post(
         continue;
       }
 
+      const user: User | null = req.user;
       const vent = await Vent.findOne({
         where: {
           id: moveJobData.id.trim(),
           serial: moveJobData.serial.trim(),
-          status: "registered"
+          status: "registered",
+          userId: user ? user.id : null
         }
       });
 
