@@ -1,9 +1,40 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import * as bcrypt from "bcrypt";
 import { Vent, User } from "../../models";
 import { Op } from "sequelize";
+import passport from "passport";
+
+// Include our passport setup
+require("../passport");
 
 const router: Router = Router();
+
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    const user: User | null = req.user;
+    if (!user) {
+      return res.status(401).json({
+        error: "Unauthorized"
+      });
+    }
+
+    const userVents = await Vent.findAll({
+      where: {
+        status: "registered",
+        userId: user.id
+      }
+    });
+    const vents = userVents.map(v => ({
+      id: v.id,
+      serial: v.serial
+    }));
+    return res.status(200).json({
+      vents
+    });
+  }
+);
 
 router.post("/register", async (req: Request, res: Response) => {
   const serial: string | undefined = req.body.serial;
