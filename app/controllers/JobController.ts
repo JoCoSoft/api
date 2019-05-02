@@ -1,23 +1,12 @@
 import { Router, Request, Response } from "express";
-import { Job, Vent, sequelize } from "../../models";
+import { Job, Vent, User } from "../../models";
 import * as bcrypt from "bcrypt";
 import passport from "passport";
+
+// Include our passport setup
 require("../passport");
 
 const router: Router = Router();
-
-// TODO
-// Eventually remove or secure
-router.get("/", async (req: Request, res: Response) => {
-  const jobs = await Job.findAll({ order: [["createdAt", "DESC"]] });
-  return res.status(200).json(
-    jobs.map(j => ({
-      id: j.id,
-      name: j.name,
-      createdAt: j.createdAt
-    }))
-  );
-});
 
 interface IMoveJobData {
   id?: string;
@@ -40,7 +29,7 @@ router.post(
       if (
         !jobName ||
         jobName.trim() === "" ||
-        // TODO Refactor when adding different job types
+        // TODO Refactor if adding different job types
         ["open", "close"].indexOf(jobName.trim()) < 0
       ) {
         errors.push({
@@ -67,11 +56,13 @@ router.post(
         continue;
       }
 
+      const user: User | null = req.user;
       const vent = await Vent.findOne({
         where: {
           id: moveJobData.id.trim(),
           serial: moveJobData.serial.trim(),
-          status: "registered"
+          status: "registered",
+          userId: user ? user.id : null
         }
       });
 
