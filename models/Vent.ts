@@ -1,4 +1,5 @@
 import * as Sequelize from "sequelize-typescript";
+import User from "./User";
 
 export type TVentStatus = "manufactured" | "registered";
 
@@ -19,4 +20,8 @@ export default class Vent extends Sequelize.Model<Vent> {
 
   @Sequelize.Column
   status: TVentStatus;
+
+  @Sequelize.ForeignKey(() => User)
+  @Sequelize.Column
+  userId: string;
 }
