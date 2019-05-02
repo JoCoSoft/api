@@ -1,23 +1,10 @@
 import { Router, Request, Response } from "express";
-import { Job, Vent, sequelize } from "../../models";
+import { Job, Vent } from "../../models";
 import * as bcrypt from "bcrypt";
 import passport from "passport";
 require("../passport");
 
 const router: Router = Router();
-
-// TODO
-// Eventually remove or secure
-router.get("/", async (req: Request, res: Response) => {
-  const jobs = await Job.findAll({ order: [["createdAt", "DESC"]] });
-  return res.status(200).json(
-    jobs.map(j => ({
-      id: j.id,
-      name: j.name,
-      createdAt: j.createdAt
-    }))
-  );
-});
 
 interface IMoveJobData {
   id?: string;
